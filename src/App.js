@@ -2,11 +2,21 @@
 import React, { useState } from "react";
 import "./App.css";
 import BottomRow from "./BottomRow";
+import Timer from './Timer';
 
 function App() {
   //TODO: STEP 2 - Establish your applictaion's state with some useState hooks.  You'll need one for the home score and another for the away score.
   const [lionsScore, setLionsScore] = useState(0);
   const [tigersScore, setTigersAwayScore] = useState(0);
+  const [quarter, setQuarter] = useState(0);
+
+  const quarterNext = () => {
+    if (quarter < 4) {
+      setQuarter(quarter + 1)
+    } else {
+      setQuarter(1)
+    }
+  }
 
   return (
     <div className="container">
@@ -19,13 +29,16 @@ function App() {
 
             <div className="home__score">{lionsScore}</div>
           </div>
-          <div className="timer">00:03</div>
+          <div className='flex'>
+            <button onClick={quarterNext}>Next Quarter</button>
+            <div className="timer"><Timer /></div>
+          </div>
           <div className="away">
             <h2 className="away__name">Tigers</h2>
             <div className="away__score">{tigersScore}</div>
           </div>
         </div>
-        <BottomRow />
+        <BottomRow quarter={quarter} />
       </section>
       <section className="buttons">
         <div className="homeButtons">
@@ -35,8 +48,8 @@ function App() {
         </div>
 
         <div className="awayButtons">
-          <button className="awayButtons__touchdown" onClick={event => setTigersAwayScore(tigersScore + 7)}>Away Touchdown</button>
-          <button className="awayButtons__fieldGoal" onClick={event => setTigersAwayScore(tigersScore + 3)}>Away Field Goal</button>
+          <button className="awayButtons__touchdown" onClick={() => setTigersAwayScore(tigersScore + 7)}>Away Touchdown</button>
+          <button className="awayButtons__fieldGoal" onClick={() => setTigersAwayScore(tigersScore + 3)}>Away Field Goal</button>
         </div>
       </section>
     </div>
